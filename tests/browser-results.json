@@ -31,6 +31,6 @@
     "No unhandled browser exceptions"
   ],
   "renderer": "canvas",
-  "mode": "in-memory",
+  "mode": "served",
   "pageErrors": []
 }
