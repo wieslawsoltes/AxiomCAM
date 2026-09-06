@@ -1,0 +1,3 @@
+# Browser-only development dependency; the application has no runtime dependencies.
+# Matches the successful initial served-browser CI run.
+playwright==1.62.0
