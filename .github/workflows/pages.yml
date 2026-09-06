@@ -1,0 +1,140 @@
+name: Import AxiomCAM and publish
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: axiomcam-pages
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Restore checksum-verified source package
+        if: hashFiles('.bootstrap/*.b64') != ''
+        run: |
+          python3 - <<'PY'
+          import base64, hashlib, io, pathlib, shutil, tarfile
+          root = pathlib.Path.cwd()
+          encoded = ''.join(p.read_text() for p in sorted(root.glob('.bootstrap/*.b64')))
+          payload = base64.b64decode(encoded, validate=True)
+          expected = '93319b4b601255082fa909117f5e90e2d5ad18026c2adb2661785d0a8453bf09'
+          if hashlib.sha256(payload).hexdigest() != expected:
+              raise SystemExit('Source archive checksum mismatch; refusing import.')
+          with tarfile.open(fileobj=io.BytesIO(payload), mode='r:xz') as archive:
+              for member in archive.getmembers():
+                  path = pathlib.PurePosixPath(member.name)
+                  if not member.isfile() or path.is_absolute() or '..' in path.parts or path.parts[0] in ('.git', '.github'):
+                      raise SystemExit(f'Unsafe archive member: {member.name}')
+                  target = root.joinpath(*path.parts)
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  with archive.extractfile(member) as source, target.open('wb') as output:
+                      shutil.copyfileobj(source, output)
+          ignore = root / '.gitignore'
+          ignore.write_text(ignore.read_text().rstrip() + '\n_site/\n')
+          (root / '.nojekyll').touch()
+          readme = root / 'README.md'
+          text = readme.read_text().replace('cd axiomcam\n', 'cd AxiomCAM\n')
+          text = text.replace('![AxiomCAM workspace](docs/preview.png)', '[Open the GitHub Pages app](https://wieslawsoltes.github.io/AxiomCAM/) · [Deployment instructions](docs/DEPLOYMENT.md)\n\nThe Pages app is available after the deployment workflow succeeds.')
+          readme.write_text(text)
+          shutil.rmtree(root / '.bootstrap')
+          print('Restored source archive with verified SHA-256:', expected)
+          PY
+      - name: Run core tests and rebuild generated distributions
+        run: |
+          set -euo pipefail
+          npm test | tee tests/core-results.tap
+          npm run build
+          npm run examples
+      - name: Commit complete source, tests and generated examples
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m 'Add complete AxiomCAM CAD/CAM source, tests and documentation'
+            git push origin HEAD:main
+          fi
+      - name: Install browser test runtime
+        run: |
+          python3 -m pip install playwright
+          python3 -m playwright install --with-deps chromium
+      - name: Browser integration at the GitHub Pages project path
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/axiomcam-webroot"
+          ln -s "$GITHUB_WORKSPACE" "$RUNNER_TEMP/axiomcam-webroot/AxiomCAM"
+          python3 -m http.server 8080 --bind 127.0.0.1 --directory "$RUNNER_TEMP/axiomcam-webroot" > "$RUNNER_TEMP/axiomcam-http.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          for attempt in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:8080/AxiomCAM/ > /dev/null && break || sleep 1
+          done
+          python3 tests/browser-integration.py --url http://127.0.0.1:8080/AxiomCAM/ | tee tests/browser-ci.log
+          cp ../axiomcam-preview.png docs/preview.png
+      - name: Record browser verification and distribution checksums
+        run: |
+          python3 - <<'PY'
+          import hashlib, pathlib
+          root = pathlib.Path.cwd()
+          entries = []
+          for path in sorted(root.rglob('*')):
+              rel = path.relative_to(root)
+              if path.is_file() and not any(p.startswith('.') or p in ('node_modules', '__pycache__', '_site') for p in rel.parts) and path.name != 'MANIFEST.sha256':
+                  entries.append(f'{hashlib.sha256(path.read_bytes()).hexdigest()}  {rel.as_posix()}')
+          (root/'MANIFEST.sha256').write_text('\n'.join(entries)+'\n')
+          PY
+          git add docs/preview.png tests/browser-results.json MANIFEST.sha256
+          if ! git diff --cached --quiet; then
+            git commit -m 'Record served-browser integration results and workspace preview'
+            git push origin HEAD:main
+          fi
+      - name: Stage the static application
+        run: |
+          mkdir -p _site
+          cp index.html AxiomCAM.html LICENSE README.md BUILD_INFO.json MANIFEST.sha256 _site/
+          cp -R src styles docs examples _site/
+          touch _site/.nojekyll
+          git rev-parse HEAD > _site/commit.txt
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: import-verification-results
+          path: |
+            tests/core-results.tap
+            tests/browser-results.json
+            tests/browser-ci.log
+            docs/preview.png
+
+  deploy:
+    needs: import
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Deploy static application
+        id: deployment
+        uses: actions/deploy-pages@v4
