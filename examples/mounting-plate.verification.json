@@ -1,0 +1,451 @@
+{
+  "schema": "axiomcam-verification",
+  "version": 1,
+  "engine": "AxiomCAM-kernel-1.0",
+  "project": {
+    "schema": "axiomcam",
+    "version": 1,
+    "name": "Mounting plate · Rev A",
+    "units": "mm",
+    "material": "Aluminum 6061 — illustrative parameters",
+    "tolerance": 0.02,
+    "stock": {
+      "x": 0,
+      "y": 0,
+      "width": 140,
+      "height": 100,
+      "top": 0,
+      "bottom": -18
+    },
+    "machine": {
+      "rapid": 5000,
+      "safeZ": 45,
+      "maxRPM": 18000,
+      "minX": -250,
+      "maxX": 250,
+      "minY": -250,
+      "maxY": 250,
+      "minZ": -100,
+      "maxZ": 150
+    },
+    "fixtures": [
+      {
+        "id": "f1",
+        "name": "Rear fixture",
+        "x": 44,
+        "y": 112,
+        "width": 52,
+        "height": 12,
+        "bottom": -18,
+        "top": 8
+      },
+      {
+        "id": "f2",
+        "name": "Front fixture",
+        "x": 44,
+        "y": -24,
+        "width": 52,
+        "height": 12,
+        "bottom": -18,
+        "top": 8
+      }
+    ],
+    "tools": [
+      {
+        "id": "t1",
+        "number": 1,
+        "name": "Ø20 Face mill",
+        "kind": "flat",
+        "diameter": 20,
+        "flutes": 3,
+        "fluteLength": 12,
+        "stickout": 42,
+        "holderDiameter": 32,
+        "holderLength": 30,
+        "centerCutting": true,
+        "maxRPM": 12000,
+        "maxStepdown": 2,
+        "vc": 220,
+        "chipload": 0.045
+      },
+      {
+        "id": "t2",
+        "number": 2,
+        "name": "Ø6 Flat end mill",
+        "kind": "flat",
+        "diameter": 6,
+        "flutes": 3,
+        "fluteLength": 22,
+        "stickout": 38,
+        "holderDiameter": 24,
+        "holderLength": 30,
+        "centerCutting": true,
+        "maxRPM": 18000,
+        "maxStepdown": 3,
+        "vc": 180,
+        "chipload": 0.035
+      },
+      {
+        "id": "t3",
+        "number": 3,
+        "name": "Ø6 Twist drill",
+        "kind": "drill",
+        "diameter": 6,
+        "flutes": 2,
+        "fluteLength": 32,
+        "stickout": 48,
+        "holderDiameter": 24,
+        "holderLength": 30,
+        "centerCutting": true,
+        "maxRPM": 10000,
+        "maxStepdown": 6,
+        "vc": 80,
+        "chipload": 0.025
+      }
+    ],
+    "geometry": [
+      {
+        "id": "outline",
+        "name": "01 · Mounting plate",
+        "type": "polygon",
+        "points": [
+          [
+            12,
+            20
+          ],
+          [
+            20,
+            12
+          ],
+          [
+            120,
+            12
+          ],
+          [
+            128,
+            20
+          ],
+          [
+            128,
+            80
+          ],
+          [
+            120,
+            88
+          ],
+          [
+            20,
+            88
+          ],
+          [
+            12,
+            80
+          ]
+        ],
+        "visible": true
+      },
+      {
+        "id": "pocket",
+        "name": "02 · Recess boundary",
+        "type": "rect",
+        "x": 34,
+        "y": 28,
+        "width": 72,
+        "height": 44,
+        "radius": 9,
+        "visible": true
+      },
+      {
+        "id": "island",
+        "name": "03 · Retained boss",
+        "type": "circle",
+        "cx": 70,
+        "cy": 50,
+        "radius": 9,
+        "visible": true
+      },
+      {
+        "id": "hole0",
+        "name": "04 · Hole 1",
+        "type": "circle",
+        "cx": 23,
+        "cy": 23,
+        "radius": 3,
+        "visible": true
+      },
+      {
+        "id": "hole1",
+        "name": "04 · Hole 2",
+        "type": "circle",
+        "cx": 117,
+        "cy": 23,
+        "radius": 3,
+        "visible": true
+      },
+      {
+        "id": "hole2",
+        "name": "04 · Hole 3",
+        "type": "circle",
+        "cx": 117,
+        "cy": 77,
+        "radius": 3,
+        "visible": true
+      },
+      {
+        "id": "hole3",
+        "name": "04 · Hole 4",
+        "type": "circle",
+        "cx": 23,
+        "cy": 77,
+        "radius": 3,
+        "visible": true
+      }
+    ],
+    "operations": [
+      {
+        "id": "demo-operation-1",
+        "name": "01 · Face top",
+        "type": "face",
+        "enabled": true,
+        "geometryIds": [],
+        "toolId": "t1",
+        "top": 0,
+        "depth": -0.6,
+        "stepdown": 0.6,
+        "stepover": 45,
+        "allowance": 0,
+        "clearance": 25,
+        "retract": 2,
+        "rpm": 6500,
+        "feed": 1200,
+        "plunge": 180,
+        "peck": 3,
+        "side": "outside",
+        "clockwise": true,
+        "coolant": true,
+        "angle": 0,
+        "entry": "plunge"
+      },
+      {
+        "id": "demo-operation-2",
+        "name": "02 · Pocket + island",
+        "type": "pocket",
+        "enabled": true,
+        "geometryIds": [
+          "pocket",
+          "island"
+        ],
+        "toolId": "t2",
+        "top": 0,
+        "depth": -7,
+        "stepdown": 2,
+        "stepover": 45,
+        "allowance": 0,
+        "clearance": 25,
+        "retract": 2,
+        "rpm": 8000,
+        "feed": 850,
+        "plunge": 180,
+        "peck": 3,
+        "side": "outside",
+        "clockwise": true,
+        "coolant": true,
+        "angle": 0,
+        "entry": "plunge"
+      },
+      {
+        "id": "demo-operation-3",
+        "name": "03 · Drill 4 × Ø6",
+        "type": "drill",
+        "enabled": true,
+        "geometryIds": [
+          "hole0",
+          "hole1",
+          "hole2",
+          "hole3"
+        ],
+        "toolId": "t3",
+        "top": 0,
+        "depth": -14,
+        "stepdown": 2,
+        "stepover": 45,
+        "allowance": 0,
+        "clearance": 25,
+        "retract": 2,
+        "rpm": 4200,
+        "feed": 240,
+        "plunge": 240,
+        "peck": 3,
+        "side": "outside",
+        "clockwise": true,
+        "coolant": true,
+        "angle": 0,
+        "entry": "plunge"
+      },
+      {
+        "id": "demo-operation-4",
+        "name": "04 · Outside contour",
+        "type": "profile",
+        "enabled": true,
+        "geometryIds": [
+          "outline"
+        ],
+        "toolId": "t2",
+        "top": 0,
+        "depth": -12,
+        "stepdown": 3,
+        "stepover": 45,
+        "allowance": 0,
+        "clearance": 25,
+        "retract": 2,
+        "rpm": 8000,
+        "feed": 700,
+        "plunge": 180,
+        "peck": 3,
+        "side": "outside",
+        "clockwise": true,
+        "coolant": true,
+        "angle": 0,
+        "entry": "plunge"
+      }
+    ],
+    "simulation": {
+      "cellSize": 1
+    },
+    "post": {
+      "name": "Generic metric 3-axis / linear",
+      "workOffset": "G54",
+      "programNumber": 1001,
+      "lengthComp": true
+    }
+  },
+  "postContract": {
+    "axes": [
+      "X",
+      "Y",
+      "Z"
+    ],
+    "units": "mm",
+    "distance": "absolute",
+    "feed": "mm/min",
+    "plane": "XY",
+    "moves": [
+      "G0",
+      "G1"
+    ],
+    "arcFitting": false,
+    "controllerCompensation": false,
+    "toolLength": "G43 H(tool number)",
+    "toolChange": "Tn M6",
+    "spindle": "M3",
+    "coolant": "M8 / M9",
+    "workOffsets": [
+      "G54",
+      "G55",
+      "G56",
+      "G57",
+      "G58",
+      "G59"
+    ],
+    "precision": 4
+  },
+  "statistics": {
+    "motionStates": 2123,
+    "emittedMoves": 2122,
+    "secondsIdealFeed": 990.4520193760031,
+    "cutLengthMm": 9156.676751031688,
+    "rapidLengthMm": 8996.410486080455,
+    "removedVolumeMm3": 54399.999874593996
+  },
+  "operations": [
+    {
+      "opId": "demo-operation-1",
+      "warnings": [
+        "Facing deliberately overtravels stock in X by cutter radius + 1 mm. Fixtures are checked."
+      ],
+      "depths": [
+        -0.6
+      ],
+      "contourCount": 0,
+      "start": 1,
+      "end": 68
+    },
+    {
+      "opId": "demo-operation-2",
+      "warnings": [
+        "Pocket: even/odd nested islands; clipped raster plus boundary finish. Independent traverses use full clearance retracts.",
+        "Radial tolerance guard 0.020 mm is retained in addition to 0.000 mm allowance."
+      ],
+      "depths": [
+        -2,
+        -4,
+        -6,
+        -7
+      ],
+      "contourCount": 2,
+      "start": 68,
+      "end": 1782
+    },
+    {
+      "opId": "demo-operation-3",
+      "warnings": [
+        "Drill depths are tip depths. Preview uses a flat cylindrical drill; no conical point or breakthrough compensation."
+      ],
+      "depths": [
+        -2,
+        -4,
+        -6,
+        -8,
+        -10,
+        -12,
+        -14
+      ],
+      "contourCount": 4,
+      "start": 1782,
+      "end": 1852
+    },
+    {
+      "opId": "demo-operation-4",
+      "warnings": [
+        "No holding tabs or lead arcs. The operation uses plunge entry; workholding must retain both part and offcut."
+      ],
+      "depths": [
+        -3,
+        -6,
+        -9,
+        -12
+      ],
+      "contourCount": 1,
+      "start": 1852,
+      "end": 2123
+    }
+  ],
+  "issues": [
+    {
+      "severity": "warning",
+      "code": "MODEL_LIMIT",
+      "message": "Stock is a 140 × 100 center-sampled heightfield (1.000 × 1.000 mm). Features between sample centers are not certified."
+    },
+    {
+      "severity": "warning",
+      "code": "MACHINE_LIMIT",
+      "message": "No machine kinematics, control dynamics, toolchanger, spindle run-up, deflection, workholding strength, or fixture assembly beyond entered boxes."
+    }
+  ],
+  "stockGrid": {
+    "nx": 140,
+    "ny": 100,
+    "dx": 1,
+    "dy": 1
+  },
+  "limits": [
+    "Demonstration only. The generic NC post has not been qualified for any machine/controller.",
+    "No machine kinematics, toolchanger motion, initial machine position, or control dynamics.",
+    "Center-sampled 2.5D stock field; between-cell material and collisions can be missed.",
+    "Flat cylindrical cutter and drill preview; no conical drill point or breakthrough compensation.",
+    "No tool deflection, cutting force, workholding strength, or thermal prediction.",
+    "Offsets use exact lattice predicates but floating constructions; near-degenerate geometry is outside the tested contract.",
+    "Ideal feed time excludes acceleration, tool changes, spindle run-up and dwell.",
+    "See docs/VERIFICATION.md and docs/POSTPROCESSOR.md before interpreting these results."
+  ]
+}

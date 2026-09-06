@@ -1,0 +1,200 @@
+
+> axiomcam@1.0.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: exact orientation on large lattice coordinates
+ok 1 - exact orientation on large lattice coordinates
+  ---
+  duration_ms: 1.576162
+  type: 'test'
+  ...
+# Subtest: reject bow-tie and nonfinite contours
+ok 2 - reject bow-tie and nonfinite contours
+  ---
+  duration_ms: 0.888751
+  type: 'test'
+  ...
+# Subtest: rectangle erosion is analytical
+ok 3 - rectangle erosion is analytical
+  ---
+  duration_ms: 3.451305
+  type: 'test'
+  ...
+# Subtest: collapsed erosion is empty
+ok 4 - collapsed erosion is empty
+  ---
+  duration_ms: 0.620429
+  type: 'test'
+  ...
+# Subtest: rounded expansion area
+ok 5 - rounded expansion area
+  ---
+  duration_ms: 3.279773
+  type: 'test'
+  ...
+# Subtest: circular erosion radius
+ok 6 - circular erosion radius
+  ---
+  duration_ms: 20.861692
+  type: 'test'
+  ...
+# Subtest: nested islands remain holes
+ok 7 - nested islands remain holes
+  ---
+  duration_ms: 8.638095
+  type: 'test'
+  ...
+# Subtest: touching contours fail closed
+ok 8 - touching contours fail closed
+  ---
+  duration_ms: 0.344789
+  type: 'test'
+  ...
+# Subtest: concave notch offset stays valid
+ok 9 - concave notch offset stays valid
+  ---
+  duration_ms: 2.172372
+  type: 'test'
+  ...
+# Subtest: depth passes never overshoot
+ok 10 - depth passes never overshoot
+  ---
+  duration_ms: 1.572279
+  type: 'test'
+  ...
+# Subtest: feeds derive from capped spindle speed
+ok 11 - feeds derive from capped spindle speed
+  ---
+  duration_ms: 2.788299
+  type: 'test'
+  ...
+# Subtest: history is transactional and round trips
+ok 12 - history is transactional and round trips
+  ---
+  duration_ms: 20.144862
+  type: 'test'
+  ...
+# Subtest: continuous fixture collision catches crossing between endpoints
+ok 13 - continuous fixture collision catches crossing between endpoints
+  ---
+  duration_ms: 0.446677
+  type: 'test'
+  ...
+# Subtest: swept stock cuts continuously and ignores rapids
+ok 14 - swept stock cuts continuously and ignores rapids
+  ---
+  duration_ms: 0.607528
+  type: 'test'
+  ...
+# Subtest: full demo generation, caching, verification, and NC post
+ok 15 - full demo generation, caching, verification, and NC post
+  ---
+  duration_ms: 197.399159
+  type: 'test'
+  ...
+# Subtest: fixture collisions block post
+ok 16 - fixture collisions block post
+  ---
+  duration_ms: 146.103415
+  type: 'test'
+  ...
+# Subtest: invalid tool diameter mismatch fails drilling
+ok 17 - invalid tool diameter mismatch fails drilling
+  ---
+  duration_ms: 30.727555
+  type: 'test'
+  ...
+# Subtest: independent geometric verifier catches a corrupted pocket traverse
+ok 18 - independent geometric verifier catches a corrupted pocket traverse
+  ---
+  duration_ms: 151.050366
+  type: 'test'
+  ...
+# Subtest: unsafe starting top is caught by remaining-stock engagement
+ok 19 - unsafe starting top is caught by remaining-stock engagement
+  ---
+  duration_ms: 72.133219
+  type: 'test'
+  ...
+# Subtest: dumbbell erosion splits a narrow connecting neck
+ok 20 - dumbbell erosion splits a narrow connecting neck
+  ---
+  duration_ms: 0.775642
+  type: 'test'
+  ...
+# Subtest: step count and geometry resource budgets fail explicitly
+ok 21 - step count and geometry resource budgets fail explicitly
+  ---
+  duration_ms: 8.320157
+  type: 'test'
+  ...
+# Subtest: project JSON round trip preserves stable identities and computed output
+ok 22 - project JSON round trip preserves stable identities and computed output
+  ---
+  duration_ms: 89.435091
+  type: 'test'
+  ...
+# Subtest: linear G-code reconstructs every emitted cutting endpoint
+ok 23 - linear G-code reconstructs every emitted cutting endpoint
+  ---
+  duration_ms: 136.541223
+  type: 'test'
+  ...
+# Subtest: changing the project after generation blocks verification and posting
+ok 24 - changing the project after generation blocks verification and posting
+  ---
+  duration_ms: 292.748944
+  type: 'test'
+  ...
+# Subtest: changing motion coordinates or feeds after verification blocks posting
+ok 25 - changing motion coordinates or feeds after verification blocks posting
+  ---
+  duration_ms: 182.523784
+  type: 'test'
+  ...
+# Subtest: public motion edits do not corrupt operation cache entries
+ok 26 - public motion edits do not corrupt operation cache entries
+  ---
+  duration_ms: 42.02973
+  type: 'test'
+  ...
+# Subtest: project parser rejects malformed metadata and operation schemas
+ok 27 - project parser rejects malformed metadata and operation schemas
+  ---
+  duration_ms: 8.75
+  type: 'test'
+  ...
+# Subtest: analytic rectangle erosion remains translation invariant across signed coordinates
+ok 28 - analytic rectangle erosion remains translation invariant across signed coordinates
+  ---
+  duration_ms: 0.399295
+  type: 'test'
+  ...
+# Subtest: fixture sweep honors the time interval of vertical overlap
+ok 29 - fixture sweep honors the time interval of vertical overlap
+  ---
+  duration_ms: 0.173491
+  type: 'test'
+  ...
+# Subtest: G-code emits a Z-only safe move before every post-toolchange XY motion
+ok 30 - G-code emits a Z-only safe move before every post-toolchange XY motion
+  ---
+  duration_ms: 141.364133
+  type: 'test'
+  ...
+# Subtest: history bounds imported snapshots as well as edits
+ok 31 - history bounds imported snapshots as well as edits
+  ---
+  duration_ms: 63.026942
+  type: 'test'
+  ...
+1..31
+# tests 31
+# suites 0
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1713.547268

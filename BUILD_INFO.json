@@ -1,0 +1,18 @@
+{
+  "product": "AxiomCAM",
+  "version": "1.0.0",
+  "date": "2026-09-06",
+  "runtimeDependencies": 0,
+  "nodeCoreTests": {
+    "passed": 31,
+    "failed": 0
+  },
+  "browserChecks": {
+    "passed": 29,
+    "pageErrors": 0,
+    "renderer": "canvas",
+    "mode": "in-memory"
+  },
+  "nativeWebGPU": "Implemented; not runtime-validated in this environment",
+  "controllerQualification": "None; generic NC output requires independent machine-specific review"
+}
